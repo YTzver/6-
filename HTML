@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Форма ИИ цветков ириса</title>
+</head>
+<body>
+    <form>
+        <label><h3>Введите длину чашелистника</h3></label><br>
+        <input type = "number" size = "40" id="dch"><br>
+        <label><h3>Введите ширину чашелистника</h3></label><br>
+        <input type = "number" size = "40" id="shch"><br>
+        <label><h3>Введите длину лепестка</h3></label><br>
+        <input type = "number" size = "40" id="dl"><br>
+        <label><h3>Введите ширину лепестка</h3></label><br>
+        <input type = "number" size = "40" id="shl"><br>
+    </form><br>
+    <button onclick="send()">Узнать вид цветка</button>
+    <p>
+    <div id = "message"><br>
+
+    </div></p>
+    <script>
+        async function send(){
+     
+            const dch = document.getElementById("dch").value;
+            const shch = document.getElementById("shch").value;
+            const dl = document.getElementById("dl").value;
+            const shl = document.getElementById("shl").value;
+           
+            const response = await fetch("/response", {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        dch: dch,
+                        shch: shch,
+                        dl: dl,
+                        shl: shl
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById("message").textContent = data.message;
+                }
+                else
+                    console.log(response);
+        }
+    </script>
+
+</body>
+</html>
